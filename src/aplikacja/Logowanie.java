@@ -8,21 +8,15 @@ import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class Logowanie extends JFrame implements ActionListener, KeyListener {
-	JButton bPrzelicz;
+	JButton bZaloguj;
 	JLabel lLogin, lHaslo;
 	JTextField tLogin;
 	JPasswordField tHaslo;
-
-	void alert(String tytul, String komunikat) {
-		String msg = "<html><center><b><font color=red>" + komunikat + "</font></b></center></html>";
-		JOptionPane.showMessageDialog(null, msg, tytul, JOptionPane.WARNING_MESSAGE, null);
-	}
 
 	public Logowanie() {
 		// setFocusable(true);
@@ -54,11 +48,11 @@ public class Logowanie extends JFrame implements ActionListener, KeyListener {
 		tHaslo.addKeyListener(this);
 		add(tHaslo);
 
-		bPrzelicz = new JButton("Zaloguj");
-		bPrzelicz.setBounds(75, 80, 120, 20);
-		bPrzelicz.addKeyListener(this);
-		bPrzelicz.addActionListener((ActionListener) this);
-		add(bPrzelicz);
+		bZaloguj = new JButton("Zaloguj");
+		bZaloguj.setBounds(75, 80, 120, 20);
+		bZaloguj.addKeyListener(this);
+		bZaloguj.addActionListener((ActionListener) this);
+		add(bZaloguj);
 
 		setVisible(true);
 		// setFocusable(false);
@@ -70,15 +64,13 @@ public class Logowanie extends JFrame implements ActionListener, KeyListener {
 		login();
 	}
 
-	@SuppressWarnings("deprecation")
 	private void login() {
-		// TODO po³¹czenie z baz¹ danych
-
+		// TODO połczenie z bazą danych
 		if (tLogin.getText().equals("Admin") && tHaslo.getText().equals("Admin")) {
 			new Okienko();
 			this.dispose();
 		} else
-			alert("B³¹d logowania", "Niepoprawy login lub has³o");
+			Start.alert("Błąd logowania", "Niepoprawy login lub hasło");
 
 	}
 

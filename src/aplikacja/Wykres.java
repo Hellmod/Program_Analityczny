@@ -18,7 +18,7 @@ public class Wykres extends JFrame implements KeyListener {
 		this.baza=baza;
 		
 		setSize(600, 600);
-		setLocation(25, 25);
+		setLocation(750, 25);
 		setTitle("Wykres");
 	
 		this.add(new Rysuj(baza), BorderLayout.CENTER);

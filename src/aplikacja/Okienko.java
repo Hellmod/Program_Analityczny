@@ -1,11 +1,16 @@
 package aplikacja;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,8 +32,7 @@ import javax.swing.text.PlainDocument;
 
 @SuppressWarnings("serial")
 public class Okienko extends JFrame implements ActionListener, KeyListener {// ,MouseListener, MouseMotionListener
-	JButton bDodawanie, bUsunZBazy, bWykres, test, bDodawanieDoBazy;
-	JButton bTabela;
+	JButton bDodawanie, bUsunZBazy, bWykres, test, bDodawanieDoBazy,bDrukujPdf, bTabela;
 	JPanel pButton, pTable, pDodaj, pWykres;
 	JSeparator sSeparator;
 
@@ -40,6 +44,7 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 	JTextArea tOpis;
 
 	DefaultTableModel model;
+	
 	public BazaDanych baza = new BazaDanych();
 
 	int width = 700, height = 500;
@@ -51,27 +56,21 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 		setSize(width, height);
 		setLocation(50, 50);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// setLayout(null);
 
 		pButton = new JPanel();
 		pButton.setLayout(null);
 		pButton.setBounds(0, 0, 400, 200);
 		pButton.addKeyListener(this);
-		// pButton.setBackground(new Color(0, 0, 255));
 
 		pTable = new JPanel();
 		pTable.setLayout(null);
 		pTable.setBounds(210, 10, 450, 400);
 		pTable.addKeyListener(this);
 
-		// pButton.setBackground(new Color(0, 255, 255));
-
 		pDodaj = new JPanel();
 		pDodaj.setLayout(null);
 		pDodaj.setBounds(210, 10, 450, 400);
 		pDodaj.addKeyListener(this);
-		// pDodaj.setBorder(BorderFactory.createTitledBorder("Move the Mouse to Move
-		// Duke"));
 
 		pWykres = new JPanel();
 		pWykres.setLayout(null);
@@ -84,8 +83,6 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 		bTabela = new JButton("Tabela");
 		bTabela.setBounds(0, 50, 200, 66);
 		bTabela.setSize(new Dimension(200, 66));
-		// bTabela.setBackground(new Color(53, 38, 255));
-		// bTabela.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
 		bTabela.addKeyListener(this);
 		bTabela.addActionListener((ActionListener) this);
 		pButton.add(bTabela);
@@ -104,8 +101,7 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 
 //_______________________tabela________________________________
 
-		table = new JTable(new DefaultTableModel(
-				new Object[] { "id", "Nazwa", "Prawdopodobieñstow", "zagro¿enie", "ryzyko", "opis" }, 0));
+		table = new JTable(new DefaultTableModel(new Object[] { "id", "Nazwa", "Prawdopodobieństow", "zagrożenie", "ryzyko", "opis" }, 0));
 
 		table.setFillsViewportHeight(true);
 		table.addKeyListener(this);
@@ -121,7 +117,7 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 
 //_______________________dodawanie_______________________________
 
-		lUsun = new JLabel("Usuñ rekord id:");
+		lUsun = new JLabel("Usuń rekord id:");
 		lUsun.setBounds(5, 10, 100, 20);
 		pDodaj.add(lUsun);
 
@@ -175,11 +171,11 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 		lNazwa.setBounds(5, 50, 100, 20);
 		pDodaj.add(lNazwa);
 
-		lPraw = new JLabel("Prawdopodobieñstwo:");
+		lPraw = new JLabel("Prawdopodobieństwo:");
 		lPraw.setBounds(5, 100, 150, 20);
 		pDodaj.add(lPraw);
 
-		lZagr = new JLabel("Zagro¿enie:");
+		lZagr = new JLabel("Zagrożenie:");
 		lZagr.setBounds(5, 150, 100, 20);
 		pDodaj.add(lZagr);
 
@@ -189,6 +185,12 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 		pDodaj.add(lOpis);
 
 //_______________________wykres_______________________________
+		
+		bDrukujPdf = new JButton("Wydrukuj wykres do PDF");
+		bDrukujPdf.setBounds(100, 300, 250, 33);
+		bDrukujPdf.addKeyListener(this);
+		bDrukujPdf.addActionListener((ActionListener) this);
+		pWykres.add(bDrukujPdf);
 
 //_______________________Jframe_______________________________
 
@@ -196,7 +198,7 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 		add(pDodaj);
 		add(pWykres);
 		pTable.setVisible(false);
-		// pDodaj.setVisible(false);
+		//pDodaj.setVisible(false);
 		pWykres.setVisible(false);
 		add(pButton);
 
@@ -204,7 +206,7 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 	}
 
 	/**
-	 * Dodaje Rekord do bazy. Wyci¹gniête dane z komponenkóe
+	 * Dodaje Rekord do bazy. Wyciągnięte z komponętu 
 	 */
 	void dodajrekord() {
 		baza.dodaj(tNazwa.getText().toString(), przetlumacz(cPraw.getSelectedItem().toString()),
@@ -217,15 +219,15 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 	 */
 	void usunrekord() {
 		if (tId.getText().toString().equals(""))
-			Start.alert("Sukces", "Podaj id do usuniêcia !!!");
+			Start.alert("Błąd", "Podaj id do usunięcia !!!");
 		else {
 			baza.usun(Integer.parseInt(tId.getText().toString()));
-			Start.alert("Sukces", "Usuniêto rekordo id: " + tId.getText().toString());
+			Start.alert("Sukces", "Usunięto rekordo id: " + tId.getText().toString());
 		}
 	}
 
 	/**
-	 * Usuwa wszystkie elementy z tablicy nastêpnie zape³nia j¹ danymi z listy
+	 * Usuwa wszystkie elementy z tablicy następnie zapełnia ją danymi z listy
 	 * baza.baza
 	 */
 	void przeladujTabele() {
@@ -240,28 +242,105 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 		// System.out.println(model.getRowCount());
 
 	}
+	
+	
+/*	public int print( Graphics gr, PageFormat pageFormat, int pageIndex ){
+        if ( pageIndex > 0 )
+            {
+            return Printable.NO_SUCH_PAGE;
+            }
 
-	public void render(Graphics2D g) {
+        Graphics2D g2d = (Graphics2D)gr;      
+        g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
-		// k1_1.render(g);
+        double xScale = 0.33;
+        double yScale = 0.33;
+
+        g2d.scale(xScale, yScale);
+
+        paint(g2d);
+
+        return Printable.PAGE_EXISTS;
+    }*/
+	
+	@SuppressWarnings("unused")
+	private void printFrame(){
+	    PrinterJob printerJob = PrinterJob.getPrinterJob();
+
+	    printerJob.setPrintable((Printable) this);
+
+	    // pop up a dialog box for the end user to fine tune the options.
+	    if ( printerJob.printDialog() )
+	        {
+	        try
+	            {
+	            // render the component onto the printer or print queue.
+	            printerJob.print();
+	            }
+	        catch ( PrinterException e )
+	            {
+	            System.out.println( "Error printing: " + e );
+	            }
+	        }
+	    }
+
+
+	
+	private void doPdf() {
+		PrinterJob job = PrinterJob.getPrinterJob();
+		job.setJobName("Print Data");
+
+		job.setPrintable(new Printable() {
+			public int print(Graphics pg, PageFormat pf, int pageNum) {
+				pf.setOrientation(PageFormat.LANDSCAPE);
+				if (pageNum > 0) {
+					return Printable.NO_SUCH_PAGE;
+				}
+
+				Graphics2D g2 = (Graphics2D) pg;
+				g2.translate(pf.getImageableX(), pf.getImageableY());
+				Rysuj r= new Rysuj(baza);
+				Double temp=(double) (600.0/(r.getWielkoscDKwadratu()*5));
+				//System.out.println(r.getWielkoscDKwadratu()+" wielkosc kwadratu");
+				//System.out.println(temp+" temp");
+				
+				//temp=0.95;
+				g2.scale(temp, temp);
+
+				r.paint(g2);
+
+				return Printable.PAGE_EXISTS;
+
+			}
+		});
+
+		boolean ok = job.printDialog();
+		if (ok) {
+			try {
+
+				job.print();
+			} catch (PrinterException ex) {
+			}
+		}
 
 	}
 
+
 	/**
-	 * T³umaczy wartoœci wybrane z listy na inty
+	 * Tłumaczy wartości wybrane z listy na inty
 	 *
 	 * @param s String z listy
-	 * @return wartoœc zagro¿enia lub ryzyka
-	 * @see <a href="http://vatmar.com.pl/">zobacz stronê napisan¹ przeze mnie</a>
+	 * @return wartość zagrożenia lub ryzyka
+	 * @see <a href="http://vatmar.com.pl/">zobacz stronę napisaną przeze mnie!</a>
 	 */
-	public int przetlumacz(String s) {
+	private int przetlumacz(String s) {
 		if (s.equals("Rzadkie") || s.equals("Nieznaczne"))
 			return 1;
-		else if (s.equals("Ma³o Prawdopodobne") || s.equals("Ma³e"))
+		else if (s.equals("Mało Prawdopodobne") || s.equals("Małe"))
 			return 2;
-		else if (s.equals("Œrednie") || s.equals("Œrednie"))
+		else if (s.equals("Średnie") || s.equals("Średnie"))
 			return 3;
-		else if (s.equals("Prawdopodobne") || s.equals("Powarzne"))
+		else if (s.equals("Prawdopodobne") || s.equals("Poważne"))
 			return 4;
 		return -1;
 	}
@@ -281,9 +360,9 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 			pWykres.setVisible(false);
 			this.repaint();
 		} else if (zrudlo == bWykres) {
-//			pTable.setVisible(false);
-//			pDodaj.setVisible(false);
-//			pWykres.setVisible(true);
+			pTable.setVisible(false);
+			pDodaj.setVisible(false);
+			pWykres.setVisible(true);
 			this.repaint();
 			new Wykres(baza);
 		} else if (zrudlo == bDodawanieDoBazy) {
@@ -292,7 +371,13 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 		} else if (zrudlo == bUsunZBazy) {
 			usunrekord();
 			this.repaint();
+		} else if (zrudlo == bDrukujPdf) {
+			doPdf();
+			//printFrame();
 		}
+		
+		
+		
 
 	}
 
@@ -309,22 +394,19 @@ public class Okienko extends JFrame implements ActionListener, KeyListener {// ,
 	}
 
 	@Override
-	public void keyReleased(KeyEvent evt) {
-
-		// TODO Auto-generated method stub
+	public void keyReleased(KeyEvent evt) {		
 
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+	public void keyTyped(KeyEvent arg0) {		
 
 	}
 }
 
 /**
- * Klasa s³u¿¹ca do zabezpieczenia JTextArea przed wprowadzeniem czegoœ innego
- * ni¿ liczba
+ * Klasasłużąca do zabezpieczenia JTextArea przed wprowadzeniem czegośinnego
+ * niżliczba
  */
 class MyIntFilter extends DocumentFilter {
 	@Override

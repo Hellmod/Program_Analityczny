@@ -12,31 +12,34 @@ public class Rysuj extends JComponent {
 
 	BazaDanych baza;
 	/**
-	 * wielkoúÊ ma≥ego kwadratu
+	 * wielko≈ì√¶ ma≈Çego kwadratu
 	 */
 	private int MalyKwadrat = 25;
 	/**
-	 * minimalna wielkoúÊ duøego kwadratu tak øeby zmieúci≥ siÍ opis kolumn i wierszy
+	 * minimalna wielko≈ì√¶ du≈ºego kwadratu tak ≈ºeby zmie≈ìci≈Ç siƒô opis kolumn i wierszy
 	 */
 	private int DurzyKwadrat = 75;
 	/**
-	 * wielkoúÊ duøego kwadratu
+	 * wielko≈õƒá du≈ºego kwadratu
 	 */
 	private int WielkoscDKwadratu = (int) Math.ceil(DurzyKwadrat / MalyKwadrat);
+	public int getWielkoscDKwadratu() {
+		return WielkoscDKwadratu;
+	}
 	/**
-	 * tablica zawierajπca liczbÍ ma≥ych kwadratÛw w jednym polu
+	 * tablica zawierajƒÖca liczbƒô ma≈Çych kwadrat√≥w w jednym polu
 	 */
 	private int[][] wielkosc;
 	/**
-	 * tablica zawierajπca wartoúci id 
+	 * tablica zawierajƒÖca warto≈ìci id 
 	 */
 	private int[][][] id;
 	/**
-	 * tablica zawierajπca Duøe kwadraty 
+	 * tablica zawierajƒÖca Du≈ºe kwadraty 
 	 */
 	private Kwadrat[][] DKwadrat = new Kwadrat[5][5];
 	/**
-	 * tablica zawierajπca Ma≥e kwadraty 
+	 * tablica zawierajƒÖca Ma≈Çe kwadraty 
 	 */
 	private Kwadrat[][][] MKwadrat;
 
@@ -59,25 +62,25 @@ public class Rysuj extends JComponent {
 	}
 
 	/**
-	 * Ustala rozmieszcenie poszczegÛlnych kwadratÛw.
-	 * Wype≥nia tabelÍ danymi :<p>
-	 * DKwadrat- tablica 2 zawierajπca duøe kwadraty
-	 * MKwadrat- tablica 3 zawierajπca ma≥e kwadraty
+	 * Ustala rozmieszcenie poszczeg√≥lnych kwadrat√≥w.
+	 * Wype≈Çnia tabelƒô danymi :<p>
+	 * DKwadrat- tablica 2 zawierajƒÖca du≈ºe kwadraty
+	 * MKwadrat- tablica 3 zawierajƒÖca ma≈Çe kwadraty
 	 */
 	private void dodajDoTablicy() {
 //spring cpp sys zarzadzania framework js jango paiton bash assembler do 16 
 
 
 		DKwadrat[0][0] = new Kwadrat(0, 0, WielkoscDKwadratu, new Color(255, 255, 255), "Prawdopodobne");
-		DKwadrat[1][0] = new Kwadrat(0, WielkoscDKwadratu, WielkoscDKwadratu, new Color(255, 255, 255), "årednie");
-		DKwadrat[2][0] = new Kwadrat(0, WielkoscDKwadratu * 2, WielkoscDKwadratu, new Color(255, 255, 255), "Ma≥o Prawdopodobne");
+		DKwadrat[1][0] = new Kwadrat(0, WielkoscDKwadratu, WielkoscDKwadratu, new Color(255, 255, 255), "≈örednie");
+		DKwadrat[2][0] = new Kwadrat(0, WielkoscDKwadratu * 2, WielkoscDKwadratu, new Color(255, 255, 255), "Ma≈Ço Prawdopodobne");
 		DKwadrat[3][0] = new Kwadrat(0, WielkoscDKwadratu * 3, WielkoscDKwadratu, new Color(255, 255, 255), "Rzadkie");
 		DKwadrat[4][0] = new Kwadrat(0, WielkoscDKwadratu * 4, WielkoscDKwadratu, new Color(255, 255, 255));
 
 		DKwadrat[4][1] = new Kwadrat(WielkoscDKwadratu, WielkoscDKwadratu * 4, WielkoscDKwadratu, new Color(255, 255, 255), "Nieznaczne");
-		DKwadrat[4][2] = new Kwadrat(WielkoscDKwadratu * 2, WielkoscDKwadratu * 4, WielkoscDKwadratu, new Color(255, 255, 255), "Ma≥e");
-		DKwadrat[4][3] = new Kwadrat(WielkoscDKwadratu * 3, WielkoscDKwadratu * 4, WielkoscDKwadratu, new Color(255, 255, 255), "årednie");
-		DKwadrat[4][4] = new Kwadrat(WielkoscDKwadratu * 4, WielkoscDKwadratu * 4, WielkoscDKwadratu, new Color(255, 255, 255), "Powaøne");
+		DKwadrat[4][2] = new Kwadrat(WielkoscDKwadratu * 2, WielkoscDKwadratu * 4, WielkoscDKwadratu, new Color(255, 255, 255), "Ma≈Çe");
+		DKwadrat[4][3] = new Kwadrat(WielkoscDKwadratu * 3, WielkoscDKwadratu * 4, WielkoscDKwadratu, new Color(255, 255, 255), "≈örednie");
+		DKwadrat[4][4] = new Kwadrat(WielkoscDKwadratu * 4, WielkoscDKwadratu * 4, WielkoscDKwadratu, new Color(255, 255, 255), "Powa≈ºne");
 
 		DKwadrat[0][1] = new Kwadrat(WielkoscDKwadratu, 0, WielkoscDKwadratu, zolty);
 		DKwadrat[1][1] = new Kwadrat(WielkoscDKwadratu, WielkoscDKwadratu, WielkoscDKwadratu, zolty);
@@ -125,9 +128,9 @@ public class Rysuj extends JComponent {
 
 	}
 	/**
-	 * Wype≥nia tabelÍ danymi:<p>
-	 * wielkosc- tablica 2 wymiarowa mÛwiπca ile ma≥ych kwadratÛw naleøy zmieúciÊ w jednym polu <br>
-	 * id- tablica 3 wymiarowa z wartoúciami id <br>
+	 * Wype≈Çnia tabelƒô danymi:<p>
+	 * wielkosc- tablica 2 wymiarowa m√≥wiƒÖca ile ma≈Çych kwadrat√≥w nale≈ºy zmie≈õciƒá w jednym polu <br>
+	 * id- tablica 3 wymiarowa z warto≈ìciami id <br>
 	 * MKwadrat- nadaje odpowiedni rozmiar tablicy
 	 */
 	private void czytajBaze() {
@@ -161,7 +164,7 @@ public class Rysuj extends JComponent {
 			}
 		}
 		
-		// serowanie MKwadrat
+		// zerowanie MKwadrat
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				int k = wielkosc[i][j];
@@ -196,7 +199,7 @@ public class Rysuj extends JComponent {
 
 	}
 	/**
-	 * funkcja rysujπca ;)
+	 * funkcja rysujƒÖca ;)
 	 */
 	public void paint(Graphics g) {
 

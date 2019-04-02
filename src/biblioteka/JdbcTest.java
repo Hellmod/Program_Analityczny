@@ -4,12 +4,12 @@ import java.util.List;
 
 import model.Zagrozenie;
 import model.Uzytkownicy;
-import biblioteka.Biblioteka;
+import biblioteka.BazaLonczenie;
 
 public class JdbcTest {
 
     public static void main(String[] args) {
-        Biblioteka b = new Biblioteka();
+        BazaLonczenie b = new BazaLonczenie();
         b.insertZagrozenia("Tsunami", 1, 1, 4, "dużo wody");
         b.insertZagrozenia("Tsunami", 1, 1, 4, "dużo wody");
         b.insertZagrozenia("Tsunami", 1, 1, 4, "dużo wody");

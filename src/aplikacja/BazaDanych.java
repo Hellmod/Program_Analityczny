@@ -3,16 +3,16 @@ package aplikacja;
 import java.util.ArrayList;
 import java.util.List;
 
-import biblioteka.Biblioteka;
+import biblioteka.BazaLonczenie;
 import model.Zagrozenie;
 
 public class BazaDanych {
 	ArrayList<Object[]> baza;
-	Biblioteka biblioteka;
+	BazaLonczenie biblioteka;
 	List<Zagrozenie> rekordy;
 
 	public BazaDanych() {
-		biblioteka = new Biblioteka();
+		biblioteka = new BazaLonczenie();
 		odczytaj();
 	}
 

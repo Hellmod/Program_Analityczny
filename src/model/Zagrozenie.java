@@ -23,8 +23,8 @@ public class Zagrozenie {
 	public int getPrawdopodobienstow() {
 		return prawdopodobienstow;
 	}
-	public void setPrawdopodobienstow(int prawdopodobieñstow) {
-		this.prawdopodobienstow = prawdopodobieñstow;
+	public void setPrawdopodobienstow(int prawdopodobienstow) {
+		this.prawdopodobienstow = prawdopodobienstow;
 	}
 	public int getZagrozenie() {
 		return zagrozenie;
